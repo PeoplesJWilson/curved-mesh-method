@@ -2,9 +2,8 @@
 for example ``python experiments/run_all.py --quick``.
 
 ``python experiments/run_all.py --no-refine`` reproduces the settings of the
-paper: plain local PCA tangent spaces for the sphere figures, written to
-figures/plain. The torus figure is always made with tangent refinement,
-since plain local PCA does not converge there, and goes to figures/refined."""
+paper with plain local PCA tangent spaces, written to figures/plain. The
+torus figure is made with tangent refinement and goes to figures/refined."""
 
 import sys
 

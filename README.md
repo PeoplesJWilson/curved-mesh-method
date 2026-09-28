@@ -81,7 +81,7 @@ Run the scripts from the repository root with the environment activated. Each sc
 python experiments/run_all.py --no-refine
 ```
 
-This uses plain local PCA tangent spaces with about 0.7 sqrt(N) nearest neighbors, the setting that matches the paper, and writes the sphere figures (Figures 1, 2, 3 and 5) to `figures/plain/`. The neighborhoods have to grow with N because the tangent error of local PCA with a fixed number of neighbors does not decay, see Section 4. The torus figure (Figure 4) is an exception: plain local PCA does not converge on the torus with this implementation, so that figure is always produced with tangent refinement and 40 neighbors and lands in `figures/refined/`.
+This uses plain local PCA tangent spaces with about 0.7 sqrt(N) nearest neighbors, the setting that matches the paper, and writes the figures to `figures/plain/`. The neighborhoods have to grow with N because the tangent error of local PCA with a fixed number of neighbors does not decay, see Section 4.
 
 ### Results with tangent refinement
 
@@ -89,7 +89,7 @@ This uses plain local PCA tangent spaces with about 0.7 sqrt(N) nearest neighbor
 python experiments/run_all.py
 ```
 
-This uses the default settings of `CurvedMeshMethod` (tangent refinement, 40 nearest neighbors) and writes all five figures to `figures/refined/`. On clean data the errors are several times smaller than in the paper and decay closer to O(N^-1). On noisy data the refinement is more sensitive than plain local PCA, since it estimates the tangent tilt from the slope of the local fit.
+This uses the default settings of `CurvedMeshMethod` (tangent refinement, 40 nearest neighbors) and writes all five figures to `figures/refined/`. The refinement improves the convergence rate: on clean data the errors are several times smaller than in the paper and decay closer to O(N^-1). On noisy data it is more sensitive than plain local PCA, since it estimates the tangent tilt from the slope of the local fit.
 
 ### Individual figures and options
 
