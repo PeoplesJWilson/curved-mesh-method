@@ -1,1 +1,5 @@
-local_mesh_method.py
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.venv/
+results/

@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cmm"
+version = "1.0.0"
+description = "Local curved mesh method for approximating 1-Laplacians on unknown manifolds"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.24", "scipy>=1.10"]
+
+[project.optional-dependencies]
+experiments = ["matplotlib>=3.7"]
+test = ["pytest>=7"]
+
+[tool.setuptools]
+packages = ["cmm"]
