@@ -83,6 +83,8 @@ python experiments/torus_convergence.py     # Figure 4, Hodge Laplacian on the t
 python experiments/noisy_sphere.py          # Figure 5, robustness to noise
 ```
 
+To produce all five at once, run `python experiments/run_all.py`; it accepts the same flags as the individual scripts.
+
 The convergence scripts accept `--quick` (three sample sizes, two trials), `--trials`, `--neighbors`, `--no-refine` (plain local PCA tangent spaces) and `--replot` (redraw from cached results). The full runs take a few minutes each on a laptop; the largest single problem (N = 16000) takes about 20 seconds.
 
 The reference solutions used for the error metrics are in `cmm/manifolds.py`: analytic eigenvalues and eigenvector fields of the 1-Laplacians on the sphere, and semi-analytic Hodge eigenvalues on the torus obtained from the Laplace-Beltrami spectrum by separation of variables.
