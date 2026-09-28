@@ -6,12 +6,13 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-from common import FIGURES, log
+from common import log, output_dirs, parser
 from cmm.manifolds import sample_sphere, sample_torus
 
 
 def main():
-    FIGURES.mkdir(exist_ok=True)
+    args = parser(__doc__).parse_args()
+    FIGURES, _ = output_dirs(args)
     rng = np.random.default_rng(0)
     datasets = [
         ("(a)", sample_sphere(4000, rng)),

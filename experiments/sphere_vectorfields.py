@@ -7,7 +7,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-from common import FIGURES, log, method_from_args, parser
+from common import log, method_from_args, output_dirs, parser
 from cmm import solve_eigenproblem
 from cmm.manifolds import sample_sphere, sphere_eigenvalues, sphere_eigenvector_fields
 from cmm.metrics import eigenspaces
@@ -39,10 +39,10 @@ def quiver(ax, points, field, title):
 
 def main():
     args = parser(__doc__).parse_args()
-    FIGURES.mkdir(exist_ok=True)
+    FIGURES, _ = output_dirs(args)
     rng = np.random.default_rng(0)
     data = sample_sphere(N_POINTS, rng)
-    method = method_from_args(args).fit(data)
+    method = method_from_args(args, N_POINTS).fit(data)
     n_modes = 6
     values, vectors = solve_eigenproblem(*method.bochner_laplacian(), n_modes)
     log(f"estimated eigenvalues {np.round(values, 3)}")

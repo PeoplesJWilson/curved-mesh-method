@@ -8,12 +8,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from common import (
-    FIGURES,
-    RESULTS,
     TORUS_SIZES,
     convergence_axes,
     log,
     method_from_args,
+    output_dirs,
     parser,
     sizes_and_trials,
 )
@@ -36,8 +35,7 @@ def torus_trial(n_points, method, seed, n_modes):
 def main():
     args = parser(__doc__).parse_args()
     sizes, trials = sizes_and_trials(args, TORUS_SIZES)
-    RESULTS.mkdir(exist_ok=True)
-    FIGURES.mkdir(exist_ok=True)
+    FIGURES, RESULTS = output_dirs(args)
     path = RESULTS / "torus_convergence.npz"
     reference = torus_hodge_eigenvalues(2 + N_NONTRIVIAL)
 
@@ -49,7 +47,7 @@ def main():
         spectrum = None
         for j, n in enumerate(sizes):
             for t in range(trials):
-                values = torus_trial(n, method_from_args(args), seed=1000 * t + j, n_modes=2 + N_NONTRIVIAL)
+                values = torus_trial(n, method_from_args(args, n), seed=1000 * t + j, n_modes=2 + N_NONTRIVIAL)
                 errors[t, j] = eigenvalue_error(reference[2:], values[2:])
                 log(f"N={n} trial={t} eigenvalues={errors[t, j]:.3e}")
                 if j == len(sizes) - 1 and t == 0:

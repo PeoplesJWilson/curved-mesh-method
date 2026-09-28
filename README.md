@@ -73,7 +73,25 @@ The GMLS polynomial p(v1, v2) = a v1^2 + b v2^2 + c v1 v2 + d v1 + e v2 + f is f
 
 ## Reproducing the figures
 
-Each script in `experiments/` writes one figure to `figures/` and caches its raw results in `results/`. Run them from the repository root with the environment activated:
+Run the scripts from the repository root with the environment activated. Each script in `experiments/` writes one figure and caches its raw results in `results/`.
+
+### Results of the paper
+
+```
+python experiments/run_all.py --no-refine
+```
+
+This uses plain local PCA tangent spaces with about 0.7 sqrt(N) nearest neighbors, the setting that matches the paper, and writes the sphere figures (Figures 1, 2, 3 and 5) to `figures/plain/`. The neighborhoods have to grow with N because the tangent error of local PCA with a fixed number of neighbors does not decay, see Section 4. The torus figure (Figure 4) is an exception: plain local PCA does not converge on the torus with this implementation, so that figure is always produced with tangent refinement and 40 neighbors and lands in `figures/refined/`.
+
+### Results with tangent refinement
+
+```
+python experiments/run_all.py
+```
+
+This uses the default settings of `CurvedMeshMethod` (tangent refinement, 40 nearest neighbors) and writes all five figures to `figures/refined/`. On clean data the errors are several times smaller than in the paper and decay closer to O(N^-1). On noisy data the refinement is more sensitive than plain local PCA, since it estimates the tangent tilt from the slope of the local fit.
+
+### Individual figures and options
 
 ```
 python experiments/plot_datasets.py         # Figure 1, example datasets
@@ -83,9 +101,7 @@ python experiments/torus_convergence.py     # Figure 4, Hodge Laplacian on the t
 python experiments/noisy_sphere.py          # Figure 5, robustness to noise
 ```
 
-To produce all five at once, run `python experiments/run_all.py`; it accepts the same flags as the individual scripts.
-
-The convergence scripts accept `--quick` (three sample sizes, two trials), `--trials`, `--neighbors`, `--no-refine` (plain local PCA tangent spaces) and `--replot` (redraw from cached results). The full runs take a few minutes each on a laptop; the largest single problem (N = 16000) takes about 20 seconds.
+All scripts accept `--no-refine` (plain local PCA tangent spaces), `--neighbors` (40 by default, 0.7 sqrt(N) with `--no-refine`), `--trials`, `--quick` (three sample sizes, two trials) and `--replot` (redraw from cached results). The reference lines in the convergence plots show O(N^-1) or O(N^-1/2), whichever is closer to the fitted rate of the mean error. The full runs take a few minutes each on a laptop; the largest single problem (N = 16000) takes about 20 seconds with 40 neighbors.
 
 The reference solutions used for the error metrics are in `cmm/manifolds.py`: analytic eigenvalues and eigenvector fields of the 1-Laplacians on the sphere, and semi-analytic Hodge eigenvalues on the torus obtained from the Laplace-Beltrami spectrum by separation of variables.
 

@@ -7,12 +7,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from common import (
-    FIGURES,
-    RESULTS,
     SPHERE_SIZES,
     convergence_axes,
     log,
     method_from_args,
+    output_dirs,
     parser,
     sizes_and_trials,
     sphere_trial,
@@ -22,8 +21,7 @@ from common import (
 def main():
     args = parser(__doc__).parse_args()
     sizes, trials = sizes_and_trials(args, SPHERE_SIZES)
-    RESULTS.mkdir(exist_ok=True)
-    FIGURES.mkdir(exist_ok=True)
+    FIGURES, RESULTS = output_dirs(args)
     path = RESULTS / "sphere_convergence.npz"
 
     if args.replot:
@@ -36,7 +34,7 @@ def main():
             vec = np.zeros((trials, len(sizes)))
             for j, n in enumerate(sizes):
                 for t in range(trials):
-                    eig[t, j], vec[t, j] = sphere_trial(n, operator, method_from_args(args), seed=1000 * t + j)
+                    eig[t, j], vec[t, j] = sphere_trial(n, operator, method_from_args(args, n), seed=1000 * t + j)
                     log(f"{operator} N={n} trial={t} eigenvalues={eig[t, j]:.3e} eigenvectors={vec[t, j]:.3e}")
             errors[f"{operator}_eigenvalues"], errors[f"{operator}_eigenvectors"] = eig, vec
         np.savez(path, sizes=np.array(sizes), **errors)
